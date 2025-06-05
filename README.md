@@ -4,7 +4,8 @@
 
 ## 🚀 Overview
 
-**Authora** is a foundational backend service focused on secure authentication and robust data validation. It's part of a broader learning mission to master backend development through real-world implementations.
+### **Authora** is a foundational backend service focused on secure authentication and robust data validation. It's part of a broader learning mission to master backend development through real-world implementations.
+
 ---
 
 ## 🔧 Stack
@@ -30,6 +31,7 @@ This project uses a `.env` file to manage environment-specific configurations. Y
 ```env
 PORT=5000
 MONGODB_URI=mongodb://localhost:27017/s1-auth-db
+NODE_ENV=development
 ```
 
 ### 🔸 Important Notes
