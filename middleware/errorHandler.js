@@ -1,5 +1,6 @@
 import logger from "../utils/logger.js";
 import appConfig from "../config/appConfig.js";
+import { ZodError } from "zod"; // Add this at the top if needed
 
 const errorHandler = (err, req, res, next) => {
 	logger.error(err);
