@@ -1,4 +1,6 @@
 import { Schema, model } from "mongoose";
+import { hash } from "bcryptjs";
+import logger from "../utils/logger.js";
 
 const userSchema = new Schema(
 	{
@@ -19,6 +21,18 @@ const userSchema = new Schema(
 	},
 	{ timestamps: true, collection: "Users" },
 );
+
+userSchema.pre("save", async function (next) {
+	if (!this.isModified("password")) return next();
+
+	try {
+		this.password = await hash(this.password, 15);
+		next();
+	} catch (error) {
+		logger.error(error);
+		next(error);
+	}
+});
 
 const User = model("User", userSchema);
 

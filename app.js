@@ -4,6 +4,7 @@ import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import errorHandler from "./middleware/errorHandler.js";
 import httpLogger from "./middleware/httpLogger.js";
+import userRoutes from "./users/userRoutes.js";
 
 const app = express();
 
@@ -19,6 +20,8 @@ app.get("/", (req, res) => {
 		message: "Welcome to the homepage of the auth api",
 	});
 });
+
+app.use("/api/users", userRoutes);
 
 app.use(errorHandler);
 

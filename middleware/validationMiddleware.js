@@ -4,6 +4,7 @@ import AppError from "../utils/appError.js";
 const validate = (schema) => (req, res, next) => {
 	try {
 		req.validatedData = schema.parse(req.body);
+		next();
 	} catch (err) {
 		if (err instanceof ZodError) {
 			return next(
@@ -17,6 +18,7 @@ const validate = (schema) => (req, res, next) => {
 				),
 			);
 		}
+		next(err);
 	}
 };
 
