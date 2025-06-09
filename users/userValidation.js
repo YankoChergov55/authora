@@ -16,10 +16,13 @@ const password = z
 	})
 	.min(8, { error: "Password must be at least 8 characters" });
 
+const role = z.enum(["user", "admin"]).optional().default("user");
+
 export const registerSchema = z.object({
 	username,
 	email,
 	password,
+	role,
 });
 
 export const loginSchema = z.object({
