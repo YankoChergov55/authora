@@ -8,6 +8,16 @@ export const createUser = async (req, res, next) => {
 	try {
 		const { username, email, password, role } = req.validatedData;
 
+		const existingUser = await User.findOne({
+			$or: [{ email }, { username }],
+		});
+		if (existingUser) {
+			throw new AppError(
+				"User with that email or username already exists",
+				400,
+			);
+		}
+
 		const createdUser = await User.create({ username, email, password, role });
 
 		res.status(201).json({
@@ -26,12 +36,12 @@ export const loginUser = async (req, res, next) => {
 
 		const foundUser = await User.findOne({ email });
 		if (!foundUser) {
-			throw new AppError(401, "Password or Email is wrong");
+			throw new AppError("Password or Email is wrong", 401);
 		}
 
 		const matchingPassword = await compare(password, foundUser.password);
 		if (!matchingPassword) {
-			throw new AppError(401, "Password or Email is wrong");
+			throw new AppError("Password or Email is wrong", 401);
 		}
 
 		const tokenData = { id: foundUser._id, email: foundUser.email };
@@ -102,7 +112,7 @@ export const refreshToken = async (req, res, next) => {
 		});
 		// user.refreshToken = newRefreshToken;
 		// await user.save();
-		res.cookie("refreshToken", newRefreshToken, {
+		res.cookie("refreshtoken", newRefreshToken, {
 			httpOnly: true,
 			secure: true,
 		});

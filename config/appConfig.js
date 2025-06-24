@@ -1,5 +1,11 @@
-import "dotenv/config";
+import dotenv from "dotenv";
 import AppError from "../utils/appError.js";
+
+const env = process.env.NODE_ENV || "development";
+
+const envFile = env === "test" ? ".env.test" : ".env";
+
+dotenv.config({ path: envFile });
 
 function requireEnvVar(name) {
 	const value = process.env[name];
@@ -11,8 +17,8 @@ function requireEnvVar(name) {
 
 const appConfig = {
 	port: Number(process.env.PORT) || 3000,
-	mongodb: process.env.MONGODB_URI || "mongodb://localhost:27017/s1-auth-api",
-	nodeENV: process.env.NODE_ENV || "development",
+	mongodb: requireEnvVar("MONGODB_URI"),
+	nodeENV: env,
 	accessJWT: requireEnvVar("JWT_SECRET_ACCESS"),
 	accessEXP: process.env.JWT_EXP_ACCESS || "15m",
 	refreshJWT: requireEnvVar("JWT_SECRET_REFRESH"),

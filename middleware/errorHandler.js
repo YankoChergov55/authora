@@ -1,6 +1,5 @@
 import logger from "../utils/logger.js";
 import appConfig from "../config/appConfig.js";
-import { ZodError } from "zod"; // Add this at the top if needed
 
 const errorHandler = (err, req, res, next) => {
 	logger.error(err);
@@ -31,7 +30,7 @@ const errorHandler = (err, req, res, next) => {
 	}
 
 	// Production safety: Only expose operational errors
-	if (appConfig.nodeEnv === "production" && !err.isOperational) {
+	if (appConfig.nodeENV === "production" && !err.isOperational) {
 		statusCode = 500;
 		message = "Internal Server Error";
 	}
@@ -41,7 +40,7 @@ const errorHandler = (err, req, res, next) => {
 		errResponse.details = err.details;
 	}
 
-	if (appConfig.nodeEnv !== "production") {
+	if (appConfig.nodeENV !== "production") {
 		errResponse.name = err.name;
 		errResponse.stack = err.stack;
 	}

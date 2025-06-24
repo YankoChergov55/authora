@@ -52,7 +52,6 @@ export const authorize = (...allowedRoles) => {
 			return next(new AppError("Not authenticated", 401));
 		}
 
-		console.log(req.user);
 		if (!allowedRoles.includes(req.user.role)) {
 			return next(new AppError("Not authorized", 403));
 		}
